@@ -12,5 +12,5 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
       dcterms:format <https://w3id.org/mediatype/text/turtle>;
       dcterms:conformsTo <https://www.w3.org/TR/shacl/>;
       <http://www.w3.org/ns/dx/prof/hasRole> <http://www.w3.org/ns/dx/prof/role/Validation>;
-      <http://www.w3.org/ns/dx/prof/hasArtifact> <metadata-schemas/SHACL.ttl>
+      <http://www.w3.org/ns/dx/prof/hasArtifact> <metadata-schemas/Dataset-SHACL.ttl>
     ] .
