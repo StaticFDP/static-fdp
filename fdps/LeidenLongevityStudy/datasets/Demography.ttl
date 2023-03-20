@@ -5,10 +5,11 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX scio: <http://semanticscience.org/resource/SIO_>
 PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 <> a dcat:Resource,
     dcat:Dataset;
-  <http://www.w3.org/2000/01/rdf-schema#label> "Demography";
+  rdfs:label "Demography";
   dcterms:publisher [ a foaf:Agent;
       foaf:name "Leiden University Medical Center"
     ];
@@ -51,5 +52,5 @@ PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
   ldp:membershipResource <>;
   ldp:hasMemberRelation dcat:distribution .
 
-<../../../DatasetProfile.ttl> <http://www.w3.org/2000/01/rdf-schema#label>
+<../../../DatasetProfile.ttl> rdfs:label
     "Dataset Profile" .

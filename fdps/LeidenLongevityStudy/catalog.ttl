@@ -5,6 +5,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX scio: <http://semanticscience.org/resource/SIO_>
 PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 <https://fdp.lumc.nl/dataset/> a ldp:DirectContainer, ldp:DirectContainer;
   ldp:hasMemberRelation dcat:dataset, dcat:dataset;
@@ -15,7 +16,7 @@ PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
 
 <> a dcat:Resource,
     dcat:Catalog;
-  <http://www.w3.org/2000/01/rdf-schema#label> "Leiden Longevity Study catalog";
+  rdfs:label "Leiden Longevity Study catalog";
   dcat:dataset <datasets/BloodCellCountsNonagerianSiblings.ttl>, <datasets/demography.ttl>;
   dcterms:issued "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
   dcterms:publisher [ a foaf:Agent;
@@ -49,7 +50,7 @@ PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
     dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
-<../../../CatalogProfile.ttl> <http://www.w3.org/2000/01/rdf-schema#label>
+<../../../CatalogProfile.ttl> rdfs:label
     "Catalog Profile", "Catalog Profile" .
 
 <metrics/1>
