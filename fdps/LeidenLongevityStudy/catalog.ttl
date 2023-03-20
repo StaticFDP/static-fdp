@@ -22,8 +22,8 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
   dcterms:title "Leiden Longevity Study catalog";
   dcterms:isPartOf <https://fdp.lumc.nl>;
   dcterms:rights <http://purl.org/coar/access_right/c_14cb>;
-  <http://semanticscience.org/resource/SIO_000628> <https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl/metrics/445c0a70d1e214e545b261559e2842f4>,
-    <https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl/metrics/5d27e854a9e78eb3f663331cd47cdc13>;
+  <http://semanticscience.org/resource/SIO_000628> <metrics/1>,
+    <metrics/2>;
   dcterms:description "Catalog of datasets from the Leiden Longevity Study (LLS). LLS is a cohort study of which the first recruitment round was between 2002 and 2006. For all 3,359 study participants there are data on 1) biomaterials, 2) demography, 3) medical history, 4) self-reported surveys. Moreover, varying subsets of the recruited participants participated in follow-up rounds 2 (2006-2008) and 3 (2009-2010) in which additional and longitudinal data were collected.";
   dcterms:accessRights <https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl#accessRights>;
   dcterms:license <https://www.wikidata.org/wiki/Q6905323>;
