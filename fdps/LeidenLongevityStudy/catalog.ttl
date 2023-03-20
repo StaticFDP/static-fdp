@@ -3,7 +3,7 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
-## fdps/LeidenLongevityStudy/datasets/BloodCellCountsNonagerianSiblings.ttl
+
 <https://fdp.lumc.nl/dataset/> a ldp:DirectContainer, ldp:DirectContainer;
   ldp:hasMemberRelation dcat:dataset, dcat:dataset;
   dcterms:title "Datasets", "Datasets";
@@ -31,8 +31,8 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
   dcterms:hasVersion "0.1";
   dcterms:modified "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
   foaf:homePage <https://dw.clinicalresearch.nl/pub/study/lls>;
-  dcterms:conformsTo <https://fdp.lumc.nl/profile/a0949e72-4466-4d53-8900-9436d1049a4b>,
-    <https://fdp.lumc.nl/profile/a0949e72-4466-4d53-8900-9436d1049a4b>;
+  dcterms:conformsTo <../../../CatalogProfile.ttl>,
+    <../../../CatalogProfile.ttl>;
   <https://w3id.org/fdp/fdp-o#metadataIdentifier> <https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl#identifier>;
   <https://w3id.org/fdp/fdp-o#metadataIssued> "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
   <https://w3id.org/fdp/fdp-o#metadataModified> "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
@@ -47,7 +47,7 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
     dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
-<https://fdp.lumc.nl/profile/a0949e72-4466-4d53-8900-9436d1049a4b> <http://www.w3.org/2000/01/rdf-schema#label>
+<../../../CatalogProfile.ttl> <http://www.w3.org/2000/01/rdf-schema#label>
     "Catalog Profile", "Catalog Profile" .
 
 <metrics/1>
