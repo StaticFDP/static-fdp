@@ -1,0 +1,53 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
+
+<> a dcat:Resource,
+    dcat:Dataset;
+  <http://www.w3.org/2000/01/rdf-schema#label> "Demography";
+  dcterms:publisher [ a foaf:Agent;
+      foaf:name "Leiden University Medical Center"
+    ];
+  dcterms:title "Demography";
+  dcterms:isPartOf <../catalog.ttl>;
+  <../metrics/1>,
+    <../metrics/2>;
+  dcterms:description "For the Leiden Longevity Study, long-lived siblings of European descent were recruited together with their offspring and the partners of the offspring between 2002 and 2006. Families were recruited if at least two long-lived siblings were alive and fulfilled the age criterion of 89 years or older for males and 91 years or older for females, representing less than 0.5% of the Dutch population in 2001 (Schoenmaker et al 2006, doi: 10.1038/sj.ejhg.5201508; Westendorp et al 2009, doi: 10.1111/j.1532-5415.2009.02381.x). In total 944 long-lived siblings were included with a mean age of 94 years (range 89-104), 1671 offspring (61 years, 34-81) and 744 partners (60 years, 30-79). It is family based study consists of 1671 offspring of 421 nonagenarians sibling pairs of Dutch descent, and their 744 partners. The dataset of the LLS IOP1 Nonagenarian Siblings consists of 944 long-lived siblings from 421 families of whom we have biosamples, biomarkers, and questionnaire data. We followed these nonagenarian participants for their vital status till 2020.";
+  dcterms:accessRights <#accessRights>;
+  dcterms:license <http://rdflicense.appspot.com/rdflicense/cc-by-nc-nd3.0>;
+  dcterms:language <http://www.wikidata.org/entity/Q1860>;
+  dcterms:hasVersion "TBD";
+  dcat:keyword "date of death", "demography", "nonagenarian";
+  dcat:theme <http://www.wikidata.org/entity/Q21169053>, <http://www.wikidata.org/entity/Q37732>,
+    <http://www.wikidata.org/Q18748141>, <http://www.wikidata.org/Q50379085>;
+  dcat:contactPoint <https://dw.clinicalresearch.nl/pub/contact>;
+  <https://w3id.org/fdp/fdp-o#metadataIdentifier> <#identifier>;
+  <https://w3id.org/fdp/fdp-o#metadataIssued> "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
+  <https://w3id.org/fdp/fdp-o#metadataModified> "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
+  dcat:landingPage <https://dw.clinicalresearch.nl/pub/dataset/demography>;
+  dcterms:conformsTo <../../../DatasetProfile.ttl> .
+
+<#identifier> a <http://purl.org/spar/datacite/Identifier>;
+  dcterms:identifier "Demography.ttl" .
+
+<#accessRights> a
+    dcterms:RightsStatement;
+  dcterms:description "This resource has no access restriction" .
+
+<../metrics/1>
+  <http://semanticscience.org/resource/SIO_000628> <https://www.ietf.org/rfc/rfc3986.txt>;
+  <http://semanticscience.org/resource/SIO_000332> <https://www.ietf.org/rfc/rfc3986.txt> .
+
+<../metrics/2>
+  <http://semanticscience.org/resource/SIO_000628> <https://www.wikidata.org/wiki/Q8777>;
+  <http://semanticscience.org/resource/SIO_000332> <https://www.wikidata.org/wiki/Q8777> .
+
+<https://fdp.lumc.nl/distribution/> a ldp:DirectContainer;
+  dcterms:title "Distributions";
+  ldp:membershipResource <>;
+  ldp:hasMemberRelation dcat:distribution .
+
+<../../../DatasetProfile.ttl> <http://www.w3.org/2000/01/rdf-schema#label>
+    "Dataset Profile" .
