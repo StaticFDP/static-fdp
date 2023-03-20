@@ -3,6 +3,8 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX scio: <http://semanticscience.org/resource/SIO_>
+PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
 
 <https://fdp.lumc.nl/dataset/> a ldp:DirectContainer, ldp:DirectContainer;
   ldp:hasMemberRelation dcat:dataset, dcat:dataset;
@@ -22,10 +24,10 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
   dcterms:title "Leiden Longevity Study catalog";
   dcterms:isPartOf <https://fdp.lumc.nl>;
   dcterms:rights <http://purl.org/coar/access_right/c_14cb>;
-  <http://semanticscience.org/resource/SIO_000628> <metrics/1>,
+  scio:000628 <metrics/1>,
     <metrics/2>;
   dcterms:description "Catalog of datasets from the Leiden Longevity Study (LLS). LLS is a cohort study of which the first recruitment round was between 2002 and 2006. For all 3,359 study participants there are data on 1) biomaterials, 2) demography, 3) medical history, 4) self-reported surveys. Moreover, varying subsets of the recruited participants participated in follow-up rounds 2 (2006-2008) and 3 (2009-2010) in which additional and longitudinal data were collected.";
-  dcterms:accessRights <https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl#accessRights>;
+  dcterms:accessRights <accessRights>;
   dcterms:license <https://www.wikidata.org/wiki/Q6905323>;
   dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en>;
   dcterms:hasVersion "0.1";
@@ -33,17 +35,17 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
   foaf:homePage <https://dw.clinicalresearch.nl/pub/study/lls>;
   dcterms:conformsTo <../../../CatalogProfile.ttl>,
     <../../../CatalogProfile.ttl>;
-  <https://w3id.org/fdp/fdp-o#metadataIdentifier> <https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl#identifier>;
-  <https://w3id.org/fdp/fdp-o#metadataIssued> "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
-  <https://w3id.org/fdp/fdp-o#metadataModified> "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
+  fdpo:metadataIdentifier <identifier>;
+  fdpo:metadataIssued "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
+  fdpo:metadataModified "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
   dcat:themeTaxonomy <https://www.wikidata.org/wiki/Q21169053>, <https://www.wikidata.org/wiki/Q211709>,
     <http://www.wikidata.org/entity/Q21169053>, <http://www.wikidata.org/entity/Q37732>,
     <http://www.wikidata.org/Q18748141>, <http://www.wikidata.org/Q50379085> .
 
-<https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl#identifier> a <http://purl.org/spar/datacite/Identifier>;
+<identifier> a <http://purl.org/spar/datacite/Identifier>;
   dcterms:identifier "https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl" .
 
-<https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl#accessRights> a
+<accessRights> a
     dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
@@ -51,9 +53,9 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
     "Catalog Profile", "Catalog Profile" .
 
 <metrics/1>
-  <http://semanticscience.org/resource/SIO_000628> <https://www.ietf.org/rfc/rfc3986.txt>;
-  <http://semanticscience.org/resource/SIO_000332> <https://www.ietf.org/rfc/rfc3986.txt> .
+  scio:000628 <https://www.ietf.org/rfc/rfc3986.txt>;
+  scio:000332 <https://www.ietf.org/rfc/rfc3986.txt> .
 
 <metrics/2>
-  <http://semanticscience.org/resource/SIO_000628> <https://www.wikidata.org/wiki/Q8777>;
-  <http://semanticscience.org/resource/SIO_000332> <https://www.wikidata.org/wiki/Q8777> .
+  scio:000628 <https://www.wikidata.org/wiki/Q8777>;
+  scio:000332 <https://www.wikidata.org/wiki/Q8777> .

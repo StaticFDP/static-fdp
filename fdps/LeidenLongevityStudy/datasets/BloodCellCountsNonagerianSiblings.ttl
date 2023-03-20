@@ -3,6 +3,8 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX scio: <http://semanticscience.org/resource/SIO_>
+PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
 
 <> a dcat:Resource,
     dcat:Dataset;
@@ -13,7 +15,7 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
     ];
   dcterms:title "Blood cell counts nonagerian siblings";
   dcterms:isPartOf <../catalog.ttl>;
-  <http://semanticscience.org/resource/SIO_000628> <metrics/1>,
+  scio:000628 <metrics/1>,
     <metrics/2>;
   dcterms:accessRights <#accessRights>;
   dcterms:license <http://rdflicense.appspot.com/rdflicense/cc-by-nc-nd3.0>;
@@ -21,26 +23,25 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
   dcterms:hasVersion "tbd";
   dcat:theme <https://www.wikidata.org/wiki/Q21169053>, <https://www.wikidata.org/wiki/Q211709>;
   dcat:contactPoint <https://dw.clinicalresearch.nl/pub/contact>;
-  <https://w3id.org/fdp/fdp-o#metadataIdentifier> <#identifier>;
-  <https://w3id.org/fdp/fdp-o#metadataIssued> "2023-03-17T12:53:01.71159302Z"^^xsd:dateTime;
-  <https://w3id.org/fdp/fdp-o#metadataModified> "2023-03-17T12:53:01.71159302Z"^^xsd:dateTime;
+  fdpo:metadataIdentifier <#identifier>;
+  fdpo:metadataIssued "2023-03-17T12:53:01.71159302Z"^^xsd:dateTime;
+  fdpo:metadataModified "2023-03-17T12:53:01.71159302Z"^^xsd:dateTime;
   dcat:landingPage <https://dw.clinicalresearch.nl/pub/dataset/cellcounts>;
   dcterms:conformsTo <../../../DatasetProfile.ttl> .
 
 <#identifier> a <http://purl.org/spar/datacite/Identifier>;
   dcterms:identifier "BloodCellCountsNonagerianSiblings.ttl" .
 
-<#accessRights> a
-    dcterms:RightsStatement;
+<#accessRights> a dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
 <../metrics/1>
-  <http://semanticscience.org/resource/SIO_000628> <https://www.ietf.org/rfc/rfc3986.txt>;
-  <http://semanticscience.org/resource/SIO_000332> <https://www.ietf.org/rfc/rfc3986.txt> .
+  scio:000628 <https://www.ietf.org/rfc/rfc3986.txt>;
+  scio:000332 <https://www.ietf.org/rfc/rfc3986.txt> .
 
 <../metrics/2>
-  <http://semanticscience.org/resource/SIO_000628> <https://www.wikidata.org/wiki/Q8777>;
-  <http://semanticscience.org/resource/SIO_000332> <https://www.wikidata.org/wiki/Q8777> .
+  scio:000628 <https://www.wikidata.org/wiki/Q8777>;
+  scio:000332 <https://www.wikidata.org/wiki/Q8777> .
 
 <https://fdp.lumc.nl/distribution/> a ldp:DirectContainer;
   dcterms:title "Distributions";

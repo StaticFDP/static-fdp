@@ -1,16 +1,14 @@
 PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX dcat: <http://www.w3.org/ns/dcat#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX prof: <http://www.w3.org/ns/dx/prof/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-<> a <http://www.w3.org/ns/dx/prof/Profile>;
-  <http://www.w3.org/2000/01/rdf-schema#label> "Dataset Profile";
-  <http://www.w3.org/ns/dx/prof/isProfileOf> <https://fdp.lumc.nl/profile/core>;
-  <http://www.w3.org/ns/dx/prof/hasResource> [ a <http://www.w3.org/ns/dx/prof/#ResourceDescriptor>;
-      <http://www.w3.org/2000/01/rdf-schema#label> "Dataset";
+<> a prof:Profile;
+  rdfs:label "Dataset Profile";
+  prof:isProfileOf <https://fdp.lumc.nl/profile/core>;
+  prof:hasResource [ a prof:#ResourceDescriptor;
+      rdfs:label "Dataset";
       dcterms:format <https://w3id.org/mediatype/text/turtle>;
       dcterms:conformsTo <https://www.w3.org/TR/shacl/>;
-      <http://www.w3.org/ns/dx/prof/hasRole> <http://www.w3.org/ns/dx/prof/role/Validation>;
-      <http://www.w3.org/ns/dx/prof/hasArtifact> <metadata-schemas/Dataset-SHACL.ttl>
+      prof:hasRole prof:role/Validation;
+      prof:hasArtifact <metadata-schemas/Dataset-SHACL.ttl>
     ] .
