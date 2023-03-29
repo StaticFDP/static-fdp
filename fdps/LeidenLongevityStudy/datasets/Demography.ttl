@@ -4,7 +4,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX scio: <http://semanticscience.org/resource/SIO_>
-PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
+PREFIX fdp-o: <https://w3id.org/fdp/fdp-o#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 <> a dcat:Resource,
@@ -26,9 +26,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   dcat:theme <http://www.wikidata.org/entity/Q21169053>, <http://www.wikidata.org/entity/Q37732>,
     <http://www.wikidata.org/Q18748141>, <http://www.wikidata.org/Q50379085>;
   dcat:contactPoint <https://dw.clinicalresearch.nl/pub/contact>;
-  fdpo:metadataIdentifier <#identifier>;
-  fdpo:metadataIssued "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
-  fdpo:metadataModified "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
+  fdp-o:metadataIdentifier <#identifier>;
+  fdp-o:metadataIssued "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
+  fdp-o:metadataModified "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
   dcat:landingPage <https://dw.clinicalresearch.nl/pub/dataset/demography>;
   dcterms:conformsTo <../../../profiles/Dataset.ttl> .
 

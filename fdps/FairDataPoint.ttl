@@ -4,11 +4,11 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX scio: <http://semanticscience.org/resource/SIO_>
-PREFIX fdpo: <https://w3id.org/fdp/fdp-o#>
+PREFIX fdp-o: <https://w3id.org/fdp/fdp-o#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-<> a dcat:Resource, dcat:DataService, fdpo:MetadataService,
-    fdpo:FAIRDataPoint;
+<> a dcat:Resource, dcat:DataService, fdp-o:MetadataService,
+    fdp-o:FAIRDataPoint;
   rdfs:label "EJP-RD FAIR Data Point";
   dcterms:title "EJP-RD FAIR Data Point";
   dcterms:hasVersion "1.0";
@@ -23,11 +23,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   scio:000628 <../metrics/1>,
     <../metrics/2>;
   dcat:endpointURL <>, <>;
-  fdpo:metadataCatalog <LeidenLongevityStudy/catalog.ttl>;
-  fdpo:metadataIdentifier <#identifier>;
-  fdpo:metadataIssued "2021-06-23T10:34:34.293606662Z"^^xsd:dateTime;
-  fdpo:metadataModified "2023-02-24T14:40:58.212211869Z"^^xsd:dateTime;
-  fdpo:fdpSoftwareVersion "FDP:v1.15.0~609a912", "FDP:v1.15.0~609a912" .
+  fdp-o:metadataCatalog <LeidenLongevityStudy/catalog.ttl>;
+  fdp-o:metadataIdentifier <#identifier>;
+  fdp-o:metadataIssued "2021-06-23T10:34:34.293606662Z"^^xsd:dateTime;
+  fdp-o:metadataModified "2023-02-24T14:40:58.212211869Z"^^xsd:dateTime;
+  fdp-o:fdpSoftwareVersion "FDP:v1.15.0~609a912", "FDP:v1.15.0~609a912" .
 
 <#identifier> a <http://purl.org/spar/datacite/Identifier>;
   dcterms:identifier "https://w3id.org/ejp-rd/fairdatapoints/wp13" .
@@ -40,8 +40,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 <catalog/> a ldp:DirectContainer, ldp:DirectContainer;
   dcterms:title "Catalogs", "Catalogs";
-  ldp:hasMemberRelation <http://www.re3data.org/schema/3-0#dataCatalog>, fdpo:metadataCatalog, # how is 3-0#dataCatalog used as a member relation?
-    fdpo:metadataCatalog;
+  ldp:hasMemberRelation <http://www.re3data.org/schema/3-0#dataCatalog>, fdp-o:metadataCatalog, # how is 3-0#dataCatalog used as a member relation?
+    fdp-o:metadataCatalog;
   ldp:membershipResource <>, <>;
   ldp:contains <LeidenLongevityStudy/catalog.ttl> .
 
