@@ -1,0 +1,27 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX prof: <http://www.w3.org/ns/dx/prof/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+<>
+  a prof:Profile;
+  rdfs:label "FAIR Data Point Profile";
+  prof:isProfileOf <https://w3id.org/ejp-rd/fairdatapoints/wp13/profile/core>; # 404
+  prof:hasResource [ a prof:ResourceDescriptor;
+      rdfs:label "Data Service";
+      dcterms:format <https://w3id.org/mediatype/text/turtle>;
+      dcterms:conformsTo <https://www.w3.org/TR/shacl/>;
+      prof:hasRole prof:role\/Validation;
+      prof:hasArtifact <../metadata-schemas/DataService-SHACL.ttl>
+    ], [ a prof:ResourceDescriptor;
+      rdfs:label "Metadata Service";
+      dcterms:format <https://w3id.org/mediatype/text/turtle>;
+      dcterms:conformsTo <https://www.w3.org/TR/shacl/>;
+      prof:hasRole prof:role\/Validation;
+      prof:hasArtifact <../metadata-schemas/MetadataService-SHACL.ttl>
+    ], [ a prof:ResourceDescriptor;
+      rdfs:label "FAIR Data Point";
+      dcterms:format <https://w3id.org/mediatype/text/turtle>;
+      dcterms:conformsTo <https://www.w3.org/TR/shacl/>;
+      prof:hasRole prof:role\/Validation;
+      prof:hasArtifact <../metadata-schemas/FairDataPoint-SHACL.ttl>
+    ] .

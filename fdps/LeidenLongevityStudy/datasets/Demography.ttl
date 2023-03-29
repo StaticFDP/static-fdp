@@ -30,7 +30,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   fdpo:metadataIssued "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
   fdpo:metadataModified "2023-03-17T12:55:24.137763514Z"^^xsd:dateTime;
   dcat:landingPage <https://dw.clinicalresearch.nl/pub/dataset/demography>;
-  dcterms:conformsTo <../../../DatasetProfile.ttl> .
+  dcterms:conformsTo <../../../profiles/Dataset.ttl> .
 
 <#identifier> a <http://purl.org/spar/datacite/Identifier>;
   dcterms:identifier "Demography.ttl" .
@@ -52,5 +52,5 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   ldp:membershipResource <>;
   ldp:hasMemberRelation dcat:distribution .
 
-<../../../DatasetProfile.ttl> rdfs:label
+<../../../profiles/Dataset.ttl> rdfs:label
     "Dataset Profile" .

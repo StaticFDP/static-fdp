@@ -3,12 +3,12 @@ PREFIX prof: <http://www.w3.org/ns/dx/prof/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 <> a prof:Profile;
-  rdfs:label "Catalog Profile";
+  rdfs:label "Dataset Profile";
   prof:isProfileOf <https://fdp.lumc.nl/profile/core>;
   prof:hasResource [ a prof:ResourceDescriptor;
-      rdfs:label "Catalog";
+      rdfs:label "Dataset";
       dcterms:format <https://w3id.org/mediatype/text/turtle>;
       dcterms:conformsTo <https://www.w3.org/TR/shacl/>;
       prof:hasRole prof:role\/Validation;
-      prof:hasArtifact <metadata-schemas/Catalog-SHACL.ttl>
+      prof:hasArtifact <../metadata-schemas/Dataset-SHACL.ttl>
     ] .

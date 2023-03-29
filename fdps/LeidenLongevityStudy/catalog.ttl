@@ -34,8 +34,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   dcterms:hasVersion "0.1";
   dcterms:modified "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
   foaf:homePage <https://dw.clinicalresearch.nl/pub/study/lls>;
-  dcterms:conformsTo <../../../CatalogProfile.ttl>,
-    <../../../CatalogProfile.ttl>;
+  dcterms:conformsTo <../../profiles/Catalog.ttl>,
+    <../../profiles/Catalog.ttl>;
   fdpo:metadataIdentifier <identifier>;
   fdpo:metadataIssued "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
   fdpo:metadataModified "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
@@ -50,7 +50,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
-<../../../CatalogProfile.ttl> rdfs:label
+<../../profiles/Catalog.ttl> rdfs:label
     "Catalog Profile", "Catalog Profile" .
 
 <metrics/1>
