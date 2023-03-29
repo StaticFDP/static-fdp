@@ -14,16 +14,16 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   dcterms:hasVersion "1.0";
   dcterms:license <http://rdflicense.appspot.com/rdflicense/cc-by-nc-nd3.0>;
   dcterms:description "FAIR Data Point to host metadata for the EJP-RD community";
-  dcterms:conformsTo <../profiles/Datapoint.ttl>,
-    <../profiles/Datapoint.ttl>;
+  dcterms:conformsTo <profiles/Datapoint.ttl>,
+    <profiles/Datapoint.ttl>;
   dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en>;
   <http://www.re3data.org/schema/3-0#repositoryIdentifier> <#identifier>;
   dcterms:accessRights <#accessRights>;
   dcterms:publisher <#publisher>;
-  scio:000628 <../metrics/1>,
-    <../metrics/2>;
+  scio:000628 <metrics/1>,
+    <metrics/2>;
   dcat:endpointURL <>, <>;
-  fdp-o:metadataCatalog <LeidenLongevityStudy/catalog.ttl>;
+  fdp-o:metadataCatalog <fdps/LeidenLongevityStudy/catalog.ttl>;
   fdp-o:metadataIdentifier <#identifier>;
   fdp-o:metadataIssued "2021-06-23T10:34:34.293606662Z"^^xsd:dateTime;
   fdp-o:metadataModified "2023-02-24T14:40:58.212211869Z"^^xsd:dateTime;
@@ -43,16 +43,16 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   ldp:hasMemberRelation <http://www.re3data.org/schema/3-0#dataCatalog>, fdp-o:metadataCatalog, # how is 3-0#dataCatalog used as a member relation?
     fdp-o:metadataCatalog;
   ldp:membershipResource <>, <>;
-  ldp:contains <LeidenLongevityStudy/catalog.ttl> .
+  ldp:contains <fdps/LeidenLongevityStudy/catalog.ttl> .
 
-<../profiles/Datapoint.ttl>
+<profiles/Datapoint.ttl>
   rdfs:label "FAIR Data Point Profile", "FAIR Data Point Profile" .
 
-<../metrics/1>
+<metrics/1>
   scio:000628 <https://www.ietf.org/rfc/rfc3986.txt>;
   scio:000332 <https://www.ietf.org/rfc/rfc3986.txt> .
 
-<../metrics/2>
+<metrics/2>
   scio:000628 <https://www.wikidata.org/wiki/Q8777>;
   scio:000332 <https://www.wikidata.org/wiki/Q8777> .
 
