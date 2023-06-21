@@ -7,16 +7,15 @@ PREFIX scio: <http://semanticscience.org/resource/SIO_>
 PREFIX fdp-o: <https://w3id.org/fdp/fdp-o#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-<> a dcat:Resource,
-    dcat:Dataset;
+<> a dcat:Resource, dcat:Dataset;
   rdfs:label "Demography";
-  dcterms:publisher [ a foaf:Agent;
-      foaf:name "Leiden University Medical Center"
-    ];
+  dcterms:publisher [
+    a foaf:Agent;
+    foaf:name "Leiden University Medical Center"
+  ];
   dcterms:title "Demography";
   dcterms:isPartOf <../catalog.ttl>;
-  scio:000628 <../metrics/1>,
-    <../metrics/2>;
+  scio:000628 <../metrics/1>, <../metrics/2>;
   dcterms:description "For the Leiden Longevity Study, long-lived siblings of European descent were recruited together with their offspring and the partners of the offspring between 2002 and 2006. Families were recruited if at least two long-lived siblings were alive and fulfilled the age criterion of 89 years or older for males and 91 years or older for females, representing less than 0.5% of the Dutch population in 2001 (Schoenmaker et al 2006, doi: 10.1038/sj.ejhg.5201508; Westendorp et al 2009, doi: 10.1111/j.1532-5415.2009.02381.x). In total 944 long-lived siblings were included with a mean age of 94 years (range 89-104), 1671 offspring (61 years, 34-81) and 744 partners (60 years, 30-79). It is family based study consists of 1671 offspring of 421 nonagenarians sibling pairs of Dutch descent, and their 744 partners. The dataset of the LLS IOP1 Nonagenarian Siblings consists of 944 long-lived siblings from 421 families of whom we have biosamples, biomarkers, and questionnaire data. We followed these nonagenarian participants for their vital status till 2020.";
   dcterms:accessRights <#accessRights>;
   dcterms:license <http://rdflicense.appspot.com/rdflicense/cc-by-nc-nd3.0>;
@@ -35,8 +34,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 <#identifier> a <http://purl.org/spar/datacite/Identifier>;
   dcterms:identifier "Demography.ttl" .
 
-<#accessRights> a
-    dcterms:RightsStatement;
+<#accessRights> a dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
 <../metrics/1>
@@ -52,5 +50,4 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   ldp:membershipResource <>;
   ldp:hasMemberRelation dcat:distribution .
 
-<../../../profiles/Dataset.ttl> rdfs:label
-    "Dataset Profile" .
+<../../../profiles/Dataset.ttl> rdfs:label "Dataset Profile" .

@@ -8,25 +8,24 @@ PREFIX fdp-o: <https://w3id.org/fdp/fdp-o#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 <https://fdp.lumc.nl/dataset/> a ldp:DirectContainer, ldp:DirectContainer;
-  ldp:hasMemberRelation dcat:dataset, dcat:dataset;
+  ldp:hasMemberRelation dcat:dataset;
   dcterms:title "Datasets", "Datasets";
-  ldp:membershipResource <>,  <>;
-  ldp:contains <datasets/BloodCellCountsNonagerianSiblings.ttl>, <datasets/demography.ttl>,
-    <datasets/BloodCellCountsNonagerianSiblings.ttl>, <datasets/demography.ttl> .
+  ldp:membershipResource <>;
+  ldp:contains <datasets/BloodCellCountsNonagerianSiblings.ttl>, <datasets/demography.ttl> .
 
 <> a dcat:Resource,
-    dcat:Catalog;
+  dcat:Catalog;
   rdfs:label "Leiden Longevity Study catalog";
   dcat:dataset <datasets/BloodCellCountsNonagerianSiblings.ttl>, <datasets/demography.ttl>;
   dcterms:issued "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
-  dcterms:publisher [ a foaf:Agent;
-      foaf:name "Leiden Center Medical Center"
-    ];
+  dcterms:publisher [
+    a foaf:Agent;
+    foaf:name "Leiden Center Medical Center"
+  ];
   dcterms:title "Leiden Longevity Study catalog";
   dcterms:isPartOf <https://fdp.lumc.nl>;
   dcterms:rights <http://purl.org/coar/access_right/c_14cb>;
-  scio:000628 <metrics/1>,
-    <metrics/2>;
+  scio:000628 <metrics/1>, <metrics/2>;
   dcterms:description "Catalog of datasets from the Leiden Longevity Study (LLS). LLS is a cohort study of which the first recruitment round was between 2002 and 2006. For all 3,359 study participants there are data on 1) biomaterials, 2) demography, 3) medical history, 4) self-reported surveys. Moreover, varying subsets of the recruited participants participated in follow-up rounds 2 (2006-2008) and 3 (2009-2010) in which additional and longitudinal data were collected.";
   dcterms:accessRights <accessRights>;
   dcterms:license <https://www.wikidata.org/wiki/Q6905323>;
@@ -34,8 +33,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   dcterms:hasVersion "0.1";
   dcterms:modified "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
   foaf:homePage <https://dw.clinicalresearch.nl/pub/study/lls>;
-  dcterms:conformsTo <../../profiles/Catalog.ttl>,
-    <../../profiles/Catalog.ttl>;
+  dcterms:conformsTo <../../profiles/Catalog.ttl>;
   fdp-o:metadataIdentifier <identifier>;
   fdp-o:metadataIssued "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
   fdp-o:metadataModified "2023-03-20T08:42:58.957804859Z"^^xsd:dateTime;
@@ -46,12 +44,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 <identifier> a <http://purl.org/spar/datacite/Identifier>;
   dcterms:identifier "https://ericprud.github.io/static-fdp/fdps/LeidenLongevityStudy/catalog.ttl" .
 
-<accessRights> a
-    dcterms:RightsStatement;
+<accessRights>
+  a dcterms:RightsStatement;
   dcterms:description "This resource has no access restriction" .
 
-<../../profiles/Catalog.ttl> rdfs:label
-    "Catalog Profile", "Catalog Profile" .
+<../../profiles/Catalog.ttl> rdfs:label "Catalog Profile", "Catalog Profile" .
 
 <metrics/1>
   scio:000628 <https://www.ietf.org/rfc/rfc3986.txt>;

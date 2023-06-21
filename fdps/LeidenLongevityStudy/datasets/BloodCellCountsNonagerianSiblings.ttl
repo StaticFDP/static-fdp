@@ -7,17 +7,16 @@ PREFIX scio: <http://semanticscience.org/resource/SIO_>
 PREFIX fdp-o: <https://w3id.org/fdp/fdp-o#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-<> a dcat:Resource,
-    dcat:Dataset;
+<> a dcat:Resource, dcat:Dataset;
   rdfs:label "Blood cell counts nonagerian siblings";
   dcterms:issued "2006-02-28T00:00:00Z"^^xsd:dateTime;
-  dcterms:publisher [ a foaf:Agent;
-      foaf:name "Leiden University Medical Center"
-    ];
+  dcterms:publisher [
+    a foaf:Agent;
+    foaf:name "Leiden University Medical Center"
+  ];
   dcterms:title "Blood cell counts nonagerian siblings";
   dcterms:isPartOf <../catalog.ttl>;
-  scio:000628 <metrics/1>,
-    <metrics/2>;
+  scio:000628 <metrics/1>, <metrics/2>;
   dcterms:accessRights <#accessRights>;
   dcterms:license <http://rdflicense.appspot.com/rdflicense/cc-by-nc-nd3.0>;
   dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en>;
@@ -49,5 +48,4 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   ldp:membershipResource <>;
   ldp:hasMemberRelation dcat:distribution .
 
-<../../../profiles/Dataset.ttl> rdfs:label
-    "Dataset Profile" .
+<../../../profiles/Dataset.ttl> rdfs:label "Dataset Profile" .
