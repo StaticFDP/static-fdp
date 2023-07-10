@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Layout of a FAIR Datapoint</title>
+    <link rel="stylesheet" href="common.css" />
+    <script
+      src999="https://www.w3.org/Tools/respec/respec-w3c"
+      src="/checkouts/ericprud/respec-ieee/builds/respec-unaffiliated.js"
+      src999="https://raw.githubusercontent.com/ericprud/respec-ieee/unaffiliated/builds/respec-unaffiliated.js"
+      class="remove"
+      defer
+      ></script>
+    <script class="remove">
+      async function loadTurtle() {
+        //this is the function you call in 'preProcess', to load the highlighter
+        const worker = await new Promise(resolve => {
+          require(["core/worker"], ({ worker }) => resolve(worker));
+        });
+        const action = "highlight-load-lang";
+        debugger
+        const langURL = new URL("./turtle.min.js", location).href
+        const propName = "hljsDefineTurtle"; // This funtion is defined in the highlighter being loaded
+        const lang = "turtle"; // this is the class you use to identify the language
+        worker.postMessage({ action, langURL, propName, lang });
+        return new Promise(resolve => {
+          worker.addEventListener("message", function listener({ data }) {
+            const { action: responseAction, lang: responseLang } = data;
+            if (responseAction === action && responseLang === lang) {
+              worker.removeEventListener("message", listener);
+              resolve();
+            }
+          });
+        });
+      }
+      
+      var respecConfig = {
+        preProcess: [/*loadTurtle*/],
+        specStatus: "ED",
+        editors: [
+          {
+            name: "Eric Prud'hommeaux",
+            url: "https://uu3.org/People/Eric/",
+          },
+        ],
+        github: "ericprud/static-fdp",
+        shortName: "respec",
+        // xref: "web-platform",
+        group: "webapps",
+        // noRecTrack: true,
+        base: "https://ericprud.github.io/static-unaffiliated/docs/",
+        licenseInfo: {
+          name: "Apache2 license",
+          url: "https://www.apache.org/licenses/LICENSE-2.0" // also the default
+        },
+        logos: [
+          {
+            src: "https://specs.fairdatapoint.org/images/FAIRDataPoint_logo-small.png",
+            alt: "FDP",
+            id: "FDP",
+            height: 170,
+            width: 170,
+            url: "https://fairdatapoint.org/",
+          },
+        ]
+      };
+    </script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This document describes the RDF graph structures required to construct a conformant FAIR Datapoint (FDP).
+        It uses an example static site to illustrate the required resources, but these documents can be dynamically-generated, possibly by adding document serializers to existing Web sites.
+      </p>
+    </section>
+    <section id="sotd">
+      <p>This is required.</p>
+    </section>
+    <section>
+      <h2>FDP Use of DCAT</h2>
+      <p>
+        An FDP is a <a href="https://www.w3.org/TR/vocab-dcat-2/">Data Catalog (DCAT)</a> description spread over one or more documents.
+        The <code class="dcat">dcat:Catalog</code> is the top of a hieararchy of <code class="dcat">dcat:Resources</code>:
+      </p>
+      <ul>
+        <li> <code class="dcat">dcat:Catalog</code>
+          <ul>
+            <li> <code class="dcat">dcat:Dataset</code>
+              <ul>
+                <li> <code class="dcat">dcat:Distribution</code>
+                  <ul>
+                    <li> <code class="dcat">dcat:DataService</code>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p>
+        The examples in this section illustrate what a catalog could look like if it were all expressed in a single document.
+      </p>
+      <div>
+        <pre class="example turtle" title="Prefixes used through examples">
+PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;
+PREFIX datacite &lt;http://purl.org/spar/datacite/&gt;;
+PREFIX dcat: &lt;http://www.w3.org/ns/dcat#&gt;
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+PREFIX ldp: &lt;http://www.w3.org/ns/ldp#&gt;
+PREFIX scio: &lt;http://semanticscience.org/resource/SIO_&gt;
+PREFIX fdp-o: &lt;https://w3id.org/fdp/fdp-o#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        </pre>
+
+        <section>
+          <h3>DCAT Catalog</h3>
+          <p>
+            An FDP <code class="dcat">dcat:Catalog</code> is an index of <code class="dcat">dcat:Dataset</code>s.
+            It may be organized as a large index of <code class="dcat">dcat:Dataset</code>s collected from many sources, potentially with some common themes.
+            Such an index would be consulted when serarching for data related to those themes.
+          </p>
+          <p>
+            Alternatively, a <code class="dcat">dcat:Catalog</code> may be a collection of <code class="dcat">dcat:Dataset</code>s produced or managed by some organization.
+            This example assumes that Leiden University as created a catalog of their longevity studies.
+          </p>
+          <pre class="example turtle" title="Example dcat:Catalog">
+&lt;#Catalog&gt; dcat:Catalog;
+  rdfs:label "Leiden Longevity Study catalog";
+  dcat:dataset
+    &lt;#datasets_BloodCellCountsNonagerianSiblings.ttl&gt;,
+    &lt;#datasets_demography.ttl&gt;;
+  dcterms:issued "2023-03-17T09:35:23.642073615Z"^^xsd:dateTime;
+  dcterms:publisher [
+    a foaf:Agent;
+    foaf:name "Leiden Center Medical Center"
+  ];
+  dcterms:title "Leiden Longevity Study catalog";
+  dcterms:description "Catalog of datasets from the Leiden Longevity Study (LLS)...";
+  foaf:homePage &lt;https://dw.clinicalresearch.nl/pub/study/lls&gt;;
+  fdp-o:metadataIdentifier [
+    a datacite:Identifier;
+    dcterms:identifier "https://ericprud.github.io/static-fdp/docs/fdp-layout.html#catalog" .
+  ]
+  dcat:themeTaxonomy
+    &lt;https://www.wikidata.org/wiki/Q21169053&gt;,
+    &lt;https://www.wikidata.org/wiki/Q211709&gt;,
+    &lt;http://www.wikidata.org/entity/Q21169053&gt;,
+    &lt;http://www.wikidata.org/entity/Q37732&gt;,
+    &lt;http://www.wikidata.org/Q18748141&gt;,
+    &lt;http://www.wikidata.org/Q50379085&gt; .
+          </pre>
+          <p>
+            A <code class="dcat">dcat:Catalog</code> typically includes useful metadata from vocabularies like <code>Dublin Core</code> (here, <code>dcterms</code>) and <code>FOAF</code>.
+            This one includes useful 
+          </p>
+          <p>
+            This catalog mentions only two <code class="dcat">dcat:Dataset</code>s, <code>&lt;#datasets_BloodCellCountsNonagerianSiblings.ttl&gt;</code> and <code>&lt;#datasets_demography.ttl&gt;</code>, but could potentially be much larger.
+          </p>
+        </section>
+
+        <section>
+          <h3>DCAT Dataset</h3>
+          <pre class="example turtle" title="Example dcat:Dataset">
+&lt;#datasets_BloodCellCountsNonagerianSiblings.ttl&gt; a dcat:Dataset;
+  rdfs:label "Blood cell counts nonagerian siblings";
+  dcterms:issued "2006-02-28T00:00:00Z"^^xsd:dateTime;
+  dcterms:publisher [
+    a foaf:Agent;
+    foaf:name "Leiden University Medical Center"
+  ];
+  dcterms:title "Blood cell counts nonagerian siblings";
+  dcterms:isPartOf &lt;../catalog.ttl&gt;;
+  dcat:theme
+    &lt;https://www.wikidata.org/wiki/Q21169053&gt;,
+    &lt;https://www.wikidata.org/wiki/Q211709&gt;;
+  dcat:contactPoint &lt;https://dw.clinicalresearch.nl/pub/contact&gt;;
+  fdp-o:metadataIdentifier &lt;#identifier&gt;;
+  dcat:landingPage &lt;https://dw.clinicalresearch.nl/pub/dataset/cellcounts&gt;.
+          </pre>
+        </section>
+
+        <section>
+          <h3>DCAT Distribution</h3>
+          <pre class="example turtle" title="Example dcat:Distribution">
+&lt;#datasets_BloodCellCountsNonagerianSiblings.ttl&gt;
+          </pre>
+        </section>
+
+        <section>
+          <h3>DCAT Data Service</h3>
+          <pre class="example turtle" title="Example dcat:DataService">
+          </pre>
+        </section>
+      </div>
+      <p>
+        The <a href="https://www.w3.org/TR/ldp/">Linked Data Protocol (LDP)</a> is used to connect these docuents and provide paging for large dataset descriptions.
+      </p>
+      <section>
+        <h3>LDP Containers</h3>
+        <p>
+          The <code class="dcat">dcat:Catalog</code> can contain any number of <code class="dcat">dcat:Dataset</code>s, which can contain any number of <code class="dcat">dcat:Distribution</code>s, etc.
+          A 
+        </p>
+      </section>
+      <section>
+        <h3>LDP Paging</h3>
+        <p>
+          LDP provides a way to page potentially large numbers of <code class="dcat">dcat:Dataset</code>s by 
+        </p>
+      </section>
+    </section>
+    <section>
+      <h2>Static FDP</h2>
+      <p>
+      </p>
+      <div class="img-overlay-wrap">
+        <img src="../images/FDPmetadatadiagram.png">
+        <!-- <img src="../images/FDPmetadatadiagram.svg"> -->
+        <!-- <img src="../images/circle.svg"> -->
+        <svg viewBox="0 0 1593 1069"> <!-- viewBox="0 0 200 200" -->
+          <rect id="skos_ConceptSchema"          class="dcat-box" x="106.53217" y="166.23245" width="223.90192" height="34.217926" />
+          <rect id="foaf_Agent"                  class="dcat-box" x="522.43243" y="88.139420" width="223.90192" height="34.217926" />
+          <rect id="skos_Concept"                class="dcat-box" x="522.43243" y="166.13942" width="223.90192" height="34.217926" />
+          <rect id="dcat_Catalog"                class="dcat-box" x="106.53217" y="336.23245" width="223.90192" height="34.217926" />
+          <rect id="dcat_Catalog_attrs"          class="dcat-box" x="107.05508" y="371.39124" width="223.90192" height="34.217926" />
+          <rect id="fdp-o_Metadata"              class="fdpo-box" x="294.85577" y="712.97528" width="166.24219" height="35.158813" />
+          <rect id="fdp-o_Metadata_attrs"        class="fdpo-box" x="295.37869" y="748.13409" width="165.71927" height="31.294186" />
+          <rect id="fdp-o_MetadataService"       class="fdpo-box" x="1321.4047" y="820.28766" width="246.26775" height="33.887161" />
+          <rect id="fdp-o_MetadataService_attrs" class="fdpo-box" x="1321.9276" y="855.44647" width="245.03511" height="31.793766" />
+          <rect id="fdp-o_FAIR_Data_Point"       class="fdpo-box" x="1320.1879" y="449.79855" width="246.26775" height="33.887161" />
+          <rect id="fdp-o_FAIR_Data_Point_attrs" class="fdpo-box" x="1320.7108" y="484.95737" width="244.90005" height="224.31834" />
+          <rect id="dcat_Relationship"           class="dcat-box" x="1331.7175" y="334.24625" width="224.99438" height="35.158783" />
+          <rect id="dcat_Relationship_attrs"     class="dcat-box" x="1332.2404" y="369.40503" width="224.47154" height="34.472141" />
+          <rect id="dcat_DataService"            class="dcat-box" x="911.60223" y="799.30493" width="229.02837" height="36.024048" />
+          <rect id="dcat_DataService_attrs"      class="dcat-box" x="912.12512" y="834.46375" width="228.50548" height="74.129768" />
+          <rect id="dcat_Resource"               class="dcat-box" x="914.97009" y="87.635620" width="223.15796" height="35.158813" />
+          <rect id="dcat_Resource_attrs"         class="dcat-box" x="915.49298" y="122.79443" width="221.13892" height="526.78931" />
+          <rect id="dcat_Dataset"                class="dcat-box" x="506.63171" y="367.08612" width="264.04041" height="33.549129" />
+          <rect id="dcat_Dataset_attrs"          class="dcat-box" x="507.15460" y="402.24490" width="263.52551" height="196.39371" />
+          <rect id="dcat_Distribution"           class="dcat-box" x="506.97705" y="691.88763" width="264.04041" height="33.549129" />
+          <rect id="dcat_Distribution_attrs"     class="dcat-box" x="507.49988" y="727.04639" width="263.52551" height="196.39371" />
+        </svg>
+      </div>
+    </section>
+  </body>
+</html>
