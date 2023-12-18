@@ -20,8 +20,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   <http://www.re3data.org/schema/3-0#repositoryIdentifier> <#identifier>;
   dcterms:accessRights <#accessRights>;
   dcterms:publisher <#publisher>;
-  scio:000628 <metrics/1>,
-    <metrics/2>;
+  scio:000628 <metrics/1>, <metrics/2>;
   dcat:endpointURL <>, <>;
   fdp-o:metadataCatalog <fdps/LeidenLongevityStudy/catalog.ttl>;
   fdp-o:metadataIdentifier <#identifier>;
