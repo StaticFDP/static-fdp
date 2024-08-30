@@ -16,3 +16,5 @@ We can enter the repository name in the input boxes in the bottom of the manager
 
 <img width="900" alt="image" src="https://github.com/user-attachments/assets/8bac64b6-bf91-4cd5-9cdd-9d946b17ace9">
 
+Hitting `create` will create a new line in the list of repositories and show some processing information under Messages.
+
