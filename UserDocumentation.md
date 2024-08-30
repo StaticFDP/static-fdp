@@ -13,3 +13,6 @@ The [`fdpcloud.org` management interface](https://fdpcloud.org/MANAGE/ui/Manager
 At the bottom, you can enter a respository type (you can choose between `github` and `github`), an owner (all the ones in the screenshot are served by the github [`StaticFDP` owner](https://github.com/StaticFDP/)), a repository name, and an optional subdomain.
 Suppose we want to add a pre-existing repo called [`FHIR-smoker`](https://github.com/StaticFDP/FHIR-smoker).
 We can enter the repository name in the input boxes in the bottom of the manager, as shown above.
+
+<img width="900" alt="image" src="https://github.com/user-attachments/assets/8bac64b6-bf91-4cd5-9cdd-9d946b17ace9">
+
