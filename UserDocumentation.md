@@ -22,4 +22,5 @@ Hitting `create` will create a new line in the list of repositories and show som
 
 Now you can add a subdomain if you want a simpler way to address the site.
 
-<img width="884" alt="image" src="https://github.com/user-attachments/assets/6b765a59-c358-427f-8563-aa9b9a487e50">
+<img width="1553" alt="image" src="https://github.com/user-attachments/assets/613eb812-771b-41ff-841e-4671d293374f">
+
