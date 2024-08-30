@@ -24,3 +24,5 @@ Now you can add a subdomain if you want a simpler way to address the site.
 
 <img width="1553" alt="image" src="https://github.com/user-attachments/assets/613eb812-771b-41ff-841e-4671d293374f">
 
+You can browse the site wtih the `explore link on the left and get a page like this:
+
