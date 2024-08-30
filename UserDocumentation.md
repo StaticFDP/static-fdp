@@ -19,3 +19,6 @@ We can enter the repository name in the input boxes in the bottom of the manager
 Hitting `create` will create a new line in the list of repositories and show some processing information under Messages.
 
 <img width="885" alt="image" src="https://github.com/user-attachments/assets/464762c7-f6c4-43dd-89cb-2bb8f5301711">
+
+Now you can add a subdomain if you want a simpler way to address the site.
+
