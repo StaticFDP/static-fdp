@@ -37,4 +37,10 @@ curl -X POST -d "clientUrl=https://fhir-smoker.fdpcloud.org/index" http://localh
 A Web browser submitting a CGI Web form will also send `application/x-form-urlencoded` so you can use a simple web form like:
 
 ``` HTML
+<form action="your-server-endpoint" method="POST">
+    <label for="clientUrl">Client URL:</label>
+    <input type="text" id="clientUrl" name="clientUrl" value="https://fhir-smoker.fdpcloud.org/index" readonly>
+    <br><br>
+    <button type="submit">Submit</button>
+</form>
 ```
