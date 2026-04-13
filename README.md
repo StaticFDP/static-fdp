@@ -136,6 +136,15 @@ FDP or deploy your own index.
 The [FDP Layout specification](docs/spec/respec.html) describes the RDF graph
 structures required to construct a conformant FAIR Data Point, based on DCAT2.
 
+## Authors
+
+| Name | ORCID |
+|---|---|
+| Rajaram Kaliyaperumal | [0000-0002-1215-167X](https://orcid.org/0000-0002-1215-167X) |
+| Eric G. Prud'hommeaux | [0000-0003-1775-9921](https://orcid.org/0000-0003-1775-9921) |
+| Egon Willighagen | [0000-0001-7542-0286](https://orcid.org/0000-0001-7542-0286) |
+| Andra Waagmeester | [0000-0001-9773-4008](https://orcid.org/0000-0001-9773-4008) |
+
 ## Previous version
 
 The original EJP-RD-specific implementation is preserved on the
