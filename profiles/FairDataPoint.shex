@@ -1,0 +1,59 @@
+# ShEx schema — FDP root resource
+# PRIMARY: this is the canonical validation schema (SHACL is generated from this).
+# Validates the `repository` file in this repo.
+#
+# ShEx spec:  https://shex.io/
+# FDP spec:   https://specs.fairdatapoint.org/
+
+PREFIX dcterms:  <http://purl.org/dc/terms/>
+PREFIX dcat:     <http://www.w3.org/ns/dcat#>
+PREFIX fdp-o:    <https://w3id.org/fdp/fdp-o#>
+PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:      <http://www.w3.org/2001/XMLSchema#>
+PREFIX ldp:      <http://www.w3.org/ns/ldp#>
+PREFIX datacite: <http://purl.org/spar/datacite/>
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+
+start = @<FairDataPointShape>
+
+# ── FDP root ────────────────────────────────────────────────────────────────
+<FairDataPointShape> EXTRA a {
+  a                        [fdp-o:FAIRDataPoint]   ;
+  a                        [dcat:DataService]      ;
+  a                        [fdp-o:MetadataService] ;
+
+  # Required
+  dcterms:title            xsd:string              {1}  ;
+  dcterms:hasVersion       xsd:string              {1}  ;
+  dcterms:publisher        @<AgentShape>           {1}  ;
+  dcat:endpointURL         IRI                     {1}  ;
+  fdp-o:metadataCatalog    IRI                     {1,} ;
+  fdp-o:metadataIdentifier @<IdentifierShape>      {1}  ;
+  fdp-o:metadataIssued     xsd:dateTime            {1}  ;
+  fdp-o:metadataModified   xsd:dateTime            {1}  ;
+
+  # Optional
+  dcterms:description      xsd:string              *    ;
+  dcterms:license          IRI                     ?    ;
+  dcterms:language         IRI                     ?    ;
+  dcterms:accessRights     @<AccessRightsShape>    ?    ;
+  fdp-o:fdpSoftwareVersion xsd:string              ?    ;
+  rdfs:label               xsd:string              *    ;
+}
+
+# ── Shared shapes ───────────────────────────────────────────────────────────
+<AgentShape> {
+  a          [foaf:Agent]  ;
+  foaf:name  xsd:string    {1}  ;
+  foaf:logo  IRI           ?    ;
+}
+
+<IdentifierShape> {
+  a                   [datacite:Identifier] ;
+  dcterms:identifier  xsd:string           {1} ;
+}
+
+<AccessRightsShape> {
+  a                   [dcterms:RightsStatement] ;
+  dcterms:description xsd:string               ? ;
+}

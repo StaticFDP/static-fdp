@@ -1,0 +1,110 @@
+@prefix dcat:    <https://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fdp:     <https://w3id.org/fdp/fdp-o#> .
+@prefix r3d:     <http://www.re3data.org/schema/3-0#> .
+
+# CUSTOMIZE: Replace {{FDP_BASE_URL}} with your GitHub Pages URL.
+# Example:   https://fdp.example.org/my-project/fdp/
+@prefix :        <{{FDP_BASE_URL}}/fdp/> .
+
+# ─── FAIR Data Point root ─────────────────────────────────────────────────────
+
+<{{FDP_BASE_URL}}/fdp/>
+    a                    fdp:MetadataService, r3d:Repository ;
+    # CUSTOMIZE: title and description for your project
+    dcterms:title        "{{PROJECT_TITLE}} — FAIR Data Point"@en ;
+    dcterms:description  """{{PROJECT_DESCRIPTION}}"""@en ;
+    dcterms:publisher    :publisher ;
+    dcterms:license      <{{LICENSE_URL}}> ;
+    dcterms:issued       "{{DATE}}"^^xsd:date ;
+    dcterms:modified     "{{DATE}}"^^xsd:date ;
+    fdp:hasCatalog       :catalog .
+
+# ─── Catalog ──────────────────────────────────────────────────────────────────
+
+:catalog a dcat:Catalog ;
+    # CUSTOMIZE: catalog title and description
+    dcterms:title       "{{CATALOG_TITLE}}"@en ;
+    dcterms:description """{{CATALOG_DESCRIPTION}}"""@en ;
+    dcterms:issued      "{{DATE}}"^^xsd:date ;
+    dcterms:modified    "{{DATE}}"^^xsd:date ;
+    dcterms:license     <{{LICENSE_URL}}> ;
+    dcterms:publisher   :publisher ;
+    # CUSTOMIZE: replace with ontologies/vocabularies relevant to your domain
+    # dcat:themeTaxonomy  <http://example.org/my-vocabulary> ;
+    dcat:dataset        :dataset-index ,
+                        :dataset-submissions .
+
+# CUSTOMIZE: publisher details
+:publisher a foaf:Organization ;
+    foaf:name  "{{PUBLISHER_NAME}}" ;
+    foaf:page  <{{PUBLISHER_URL}}> .
+
+# ─── Auto-generated index of contributed datasets ─────────────────────────────
+
+:dataset-index a dcat:Dataset ;
+    dcterms:title       "Per-Topic FAIR Dataset Index"@en ;
+    dcterms:description """Auto-generated index of contributed FAIR datasets. Each
+submission gets its own versioned folder with case data and gap reports as RDF
+Turtle."""@en ;
+    dcat:keyword        "FAIR datasets"@en, "index"@en ;
+    dcterms:issued      "{{DATE}}"^^xsd:date ;
+    dcterms:license     <{{LICENSE_URL}}> ;
+    dcat:landingPage    <{{FDP_BASE_URL}}/datasets/> ;
+    dcat:distribution   :dist-index-html ,
+                        :dist-index-ttl ,
+                        :dist-index-jsonld .
+
+:dist-index-html a dcat:Distribution ;
+    dcterms:title    "Dataset index — HTML"@en ;
+    dcterms:format   "text/html" ;
+    dcat:accessURL   <{{FDP_BASE_URL}}/datasets/> .
+
+:dist-index-ttl a dcat:Distribution ;
+    dcterms:title    "Dataset index — RDF Turtle"@en ;
+    dcterms:format   "text/turtle" ;
+    dcat:accessURL   <{{FDP_BASE_URL}}/datasets/index.ttl> ;
+    dcat:downloadURL <{{FDP_BASE_URL}}/datasets/index.ttl> .
+
+:dist-index-jsonld a dcat:Distribution ;
+    dcterms:title    "Dataset index — JSON-LD"@en ;
+    dcterms:format   "application/ld+json" ;
+    dcat:accessURL   <{{FDP_BASE_URL}}/datasets/index.jsonld> ;
+    dcat:downloadURL <{{FDP_BASE_URL}}/datasets/index.jsonld> .
+
+# ─── Community submissions (auto-generated from GitHub Issues) ────────────────
+
+:dataset-submissions a dcat:Dataset ;
+    dcterms:title       "Community Submissions"@en ;
+    dcterms:description """Contributions submitted via GitHub Issue forms or web forms,
+automatically converted to RDF by GitHub Actions."""@en ;
+    dcat:keyword        "community submissions"@en ;
+    dcterms:issued      "{{DATE}}"^^xsd:date ;
+    dcterms:license     <{{LICENSE_URL}}> ;
+    dcat:distribution   :dist-submissions-ttl .
+
+:dist-submissions-ttl a dcat:Distribution ;
+    dcterms:title    "Submitted contributions — RDF Turtle"@en ;
+    dcterms:format   "text/turtle" ;
+    dcat:accessURL   <{{FDP_BASE_URL}}/fdp/submissions.ttl> ;
+    dcat:downloadURL <{{FDP_BASE_URL}}/fdp/submissions.ttl> .
+
+# ─── Add your curated datasets below ─────────────────────────────────────────
+# Copy this block for each dataset you want to list in the catalog:
+#
+# :dataset-my-data a dcat:Dataset ;
+#     dcterms:title       "My Dataset Title"@en ;
+#     dcterms:description "Description of the dataset."@en ;
+#     dcat:keyword        "keyword1"@en, "keyword2"@en ;
+#     dcterms:issued      "{{DATE}}"^^xsd:date ;
+#     dcterms:license     <{{LICENSE_URL}}> ;
+#     dcat:landingPage    <https://github.com/MyOrg/my-repo/tree/main/cases/my-data> ;
+#     dcat:distribution   :dist-my-data-narrative .
+#
+# :dist-my-data-narrative a dcat:Distribution ;
+#     dcterms:title    "My data narrative (Markdown)"@en ;
+#     dcterms:format   "text/markdown" ;
+#     dcat:accessURL   <{{FDP_BASE_URL}}/cases/my-data/narrative.md> .

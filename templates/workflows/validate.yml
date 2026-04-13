@@ -1,0 +1,105 @@
+name: Validate RDF
+
+# Runs on every PR — blocks merge if ShEx validation fails.
+# ShEx is PRIMARY; SHACL is a secondary cross-check.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validators
+        run: |
+          npm install -g @shexjs/cli
+          pip install pyshacl rdflib pyshex
+
+      # ── ShEx validation (PRIMARY GATE) ───────────────────────────────────────
+      - name: ShEx — validate FDP root
+        if: hashFiles('repository') != ''
+        run: |
+          shex-validate \
+            --shex    profiles/FairDataPoint.shex \
+            --turtle  repository \
+            --shapeMap '<>@<profiles/FairDataPoint.shex#FairDataPointShape>'
+
+      - name: ShEx — validate catalogs
+        run: |
+          find . -name 'catalog' -not -path './.git/*' | while read f; do
+            echo "Validating $f"
+            shex-validate \
+              --shex    profiles/Catalog.shex \
+              --turtle  "$f" \
+              --shapeMap "<>@<profiles/Catalog.shex#CatalogShape>"
+          done
+
+      - name: ShEx — validate datasets
+        run: |
+          find . -name 'dataset-*' -not -path './.git/*' | while read f; do
+            echo "Validating $f"
+            shex-validate \
+              --shex    profiles/Dataset.shex \
+              --turtle  "$f" \
+              --shapeMap "<>@<profiles/Dataset.shex#DatasetShape>"
+          done
+
+      # ── Generate SHACL from ShEx ─────────────────────────────────────────────
+      - name: Generate SHACL from ShEx schemas
+        run: |
+          mkdir -p generated/profiles
+          for f in profiles/*.shex; do
+            name=$(basename "$f" .shex)
+            echo "Converting $f → generated/profiles/${name}-SHACL.ttl"
+            shex-to-shacl "$f" > "generated/profiles/${name}-SHACL.ttl" || \
+              echo "⚠ shex-to-shacl not available — skipping $f"
+          done
+
+      # ── SHACL cross-check (non-blocking) ─────────────────────────────────────
+      - name: SHACL cross-check — FDP root
+        if: hashFiles('repository') != '' && hashFiles('generated/profiles/FairDataPoint-SHACL.ttl') != ''
+        continue-on-error: true
+        run: |
+          pyshacl \
+            -s generated/profiles/FairDataPoint-SHACL.ttl \
+            -sf turtle -df turtle repository
+
+      - name: SHACL cross-check — catalogs
+        continue-on-error: true
+        run: |
+          if [ -f generated/profiles/Catalog-SHACL.ttl ]; then
+            find . -name 'catalog' -not -path './.git/*' | while read f; do
+              pyshacl -s generated/profiles/Catalog-SHACL.ttl -sf turtle -df turtle "$f" || true
+            done
+          fi
+
+      - name: SHACL cross-check — datasets
+        continue-on-error: true
+        run: |
+          if [ -f generated/profiles/Dataset-SHACL.ttl ]; then
+            find . -name 'dataset-*' -not -path './.git/*' | while read f; do
+              pyshacl -s generated/profiles/Dataset-SHACL.ttl -sf turtle -df turtle "$f" || true
+            done
+          fi
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## Validation summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Stage | Role | Result |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| ShEx  | **Primary gate** | see steps above |" >> $GITHUB_STEP_SUMMARY
+          echo "| SHACL | Secondary cross-check | non-blocking |" >> $GITHUB_STEP_SUMMARY

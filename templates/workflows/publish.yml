@@ -1,0 +1,169 @@
+name: Publish FDP
+
+# Runs on every push to main:
+#   1. Generate SHACL from ShEx
+#   2. Generate RDF serialisations (JSON-LD, N-Triples) from Turtle
+#   3. Publish Turtle metadata to docs/fdp/
+#   4. Commit generated/ back to main
+#   5. Enable GitHub Pages
+#   6. (Optional) Invalidate Cloudflare Worker cache
+#   7. (Optional) Ping the FDP index
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'generated/**'
+      - '**.md'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages:    write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install tools
+        run: |
+          npm install -g @shexjs/cli
+          pip install rdflib pyshex
+
+      # ── ShEx → SHACL ────────────────────────────────────────────────────────
+      - name: Generate SHACL from ShEx
+        run: |
+          mkdir -p generated/profiles
+          for f in profiles/*.shex; do
+            [ -f "$f" ] || continue
+            name=$(basename "$f" .shex)
+            echo "→ $f → generated/profiles/${name}-SHACL.ttl"
+            shex-to-shacl "$f" > "generated/profiles/${name}-SHACL.ttl" \
+              || echo "⚠ Skipped: $f"
+          done
+
+      # ── Turtle → JSON-LD + N-Triples ────────────────────────────────────────
+      - name: Generate RDF serialisations
+        run: |
+          python3 - <<'PYEOF'
+          import glob, os
+          from rdflib import Graph
+
+          candidates = (
+            [f for f in os.listdir('.') if os.path.isfile(f)
+              and '.' not in f and not f.startswith('.')]
+            + glob.glob('cases/**/*', recursive=True)
+          )
+
+          resources = [
+            f for f in candidates
+            if os.path.isfile(f)
+            and '.' not in os.path.basename(f)
+            and not f.startswith(('.', 'generated'))
+          ]
+
+          os.makedirs('generated', exist_ok=True)
+
+          for src in resources:
+            try:
+              g = Graph()
+              g.parse(src, format='turtle')
+              out_base = f"generated/{src}"
+              os.makedirs(os.path.dirname(out_base) or '.', exist_ok=True)
+              g.serialize(f"{out_base}.ttl",    format='turtle')
+              g.serialize(f"{out_base}.jsonld", format='json-ld', indent=2)
+              g.serialize(f"{out_base}.nt",     format='ntriples')
+              print(f"✓ {src}  →  .ttl  .jsonld  .nt")
+            except Exception as e:
+              print(f"⚠ Skipped {src}: {e}")
+          PYEOF
+
+      # ── Copy metadata to docs/fdp/ for GitHub Pages ─────────────────────────
+      - name: Publish Turtle metadata to docs/fdp/
+        run: |
+          mkdir -p docs/fdp
+          cp metadata/fdp/*.ttl docs/fdp/
+          # Create empty submissions stub if not present
+          if [ ! -f docs/fdp/submissions.ttl ]; then
+            cat > docs/fdp/submissions.ttl <<'STUB'
+          @prefix dcat:    <https://www.w3.org/ns/dcat#> .
+          @prefix dcterms: <http://purl.org/dc/terms/> .
+          @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+          # Community submissions (auto-generated from GitHub Issues)
+          STUB
+          fi
+
+      # ── Commit generated artifacts ──────────────────────────────────────────
+      - name: Commit generated files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add generated/ docs/fdp/
+          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "chore: regenerate derived artifacts [skip ci]"
+          git push
+
+      # ── Enable GitHub Pages ─────────────────────────────────────────────────
+      - name: Enable GitHub Pages (idempotent)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/${{ github.repository }}/pages \
+            --method POST \
+            -f "source[branch]=main" \
+            -f "source[path]=/docs" \
+            2>/dev/null \
+            && echo "✓ GitHub Pages enabled (main/docs)" \
+            || echo "ℹ GitHub Pages already configured"
+
+      # ── (Optional) Invalidate Cloudflare Worker cache ────────────────────────
+      - name: Invalidate Cloudflare Worker cache
+        env:
+          CF_API_TOKEN:  ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_KV_NS_ID:   ${{ secrets.CF_KV_NS_ID }}
+        run: |
+          if [ -z "$CF_API_TOKEN" ]; then
+            echo "ℹ No CF_API_TOKEN — skipping"
+            exit 0
+          fi
+          curl -sf -X PUT \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: text/plain" \
+            --data "$(date -u +%s)" \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${CF_KV_NS_ID}/values/invalidate%3A%3A${{ github.repository }}" \
+          && echo "✓ Cloudflare cache invalidated" \
+          || echo "⚠ Cloudflare invalidation failed (non-fatal)"
+
+      # ── (Optional) Ping FDP index ───────────────────────────────────────────
+      - name: Ping FDP index
+        env:
+          FDPINDEX_TOKEN: ${{ secrets.FDPINDEX_DISPATCH_TOKEN }}
+          FDP_ROOT_URL:   ${{ vars.FDP_ROOT_URL }}
+        run: |
+          if [ -z "$FDPINDEX_TOKEN" ]; then
+            echo "ℹ No FDPINDEX_DISPATCH_TOKEN — skipping"
+            exit 0
+          fi
+          FDP_URL="${FDP_ROOT_URL:-https://example.org/fdp/}"
+          curl -sf -X POST \
+            -H "Authorization: Bearer ${FDPINDEX_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Content-Type: application/json" \
+            -d "{\"event_type\":\"fdp-ping\",\"client_payload\":{\"url\":\"${FDP_URL}\"}}" \
+            "https://api.github.com/repos/StaticFDP/fdp-index/dispatches" \
+          && echo "✓ FDP index pinged" \
+          || echo "⚠ Index ping failed (non-fatal)"

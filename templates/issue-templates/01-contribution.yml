@@ -1,0 +1,120 @@
+name: "Submit a contribution"
+# CUSTOMIZE: Update description and title prefix for your domain
+description: "Submit a structured contribution. No Git knowledge required."
+title: "[SUBMISSION] "
+# CUSTOMIZE: Update labels to match your workflow triggers
+labels: ["submission", "needs-review"]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Fill in as much as you can. Partial entries are welcome.
+        Leave any field blank if you don't know the answer.
+
+  # ── Topic identity ──────────────────────────────────────────────────────────
+
+  - type: input
+    id: topic_name
+    attributes:
+      # CUSTOMIZE: Change label and placeholder for your domain
+      label: Topic name
+      description: "Use the preferred name from the vocabulary you know best."
+      placeholder: "e.g. My Topic Name"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Identifiers
+
+        Add as many identifiers as you know — any vocabulary is welcome.
+        Use the format `PREFIX:ID`, one per line.
+
+        <!-- CUSTOMIZE: Replace this table with vocabularies relevant to your domain -->
+        | Vocabulary | Scope | Format example | Lookup |
+        |---|---|---|---|
+        | **Example** | Description | `EX:12345` | [example.org](https://example.org/) |
+
+  - type: textarea
+    id: identifiers
+    attributes:
+      label: Identifiers
+      description: "One identifier per line, any vocabulary."
+      placeholder: |
+        EX:12345
+
+  # ── Source ──────────────────────────────────────────────────────────────────
+
+  - type: input
+    id: source
+    attributes:
+      # CUSTOMIZE: Change to match your contribution context
+      label: Data source
+      placeholder: "e.g. Name of database, registry, or project"
+
+  - type: input
+    id: source_url
+    attributes:
+      label: Source URL (if publicly accessible)
+      placeholder: "https://..."
+
+  # ── Description ─────────────────────────────────────────────────────────────
+
+  - type: textarea
+    id: narrative
+    attributes:
+      # CUSTOMIZE: Adjust the description and placeholder for your context
+      label: Description (plain language)
+      description: "Describe the contribution in plain language."
+      placeholder: |
+        Overview: ...
+        Key points: ...
+        Gaps or issues: ...
+    validations:
+      required: true
+
+  # ── Structured data ─────────────────────────────────────────────────────────
+
+  - type: textarea
+    id: structured_data
+    attributes:
+      label: Key structured data points (one per line)
+      description: "Any structured observations, measurements, or classifications."
+      placeholder: |
+        item1 — description
+        item2 — description
+
+  # ── Data types ──────────────────────────────────────────────────────────────
+
+  - type: dropdown
+    id: data_types
+    attributes:
+      # CUSTOMIZE: Replace with data types relevant to your domain
+      label: Data types included (select all that apply)
+      multiple: true
+      options:
+        - Structured terms / controlled vocabulary
+        - Free text narrative
+        - Quantitative measurements
+        - Qualitative observations
+        - Metadata / provenance
+        - Other
+
+  # ── Gaps ────────────────────────────────────────────────────────────────────
+
+  - type: textarea
+    id: gaps
+    attributes:
+      label: What information is missing or hard to capture?
+      placeholder: "Describe any gaps in available vocabularies, standards, or data models..."
+
+  # ── Contributor ─────────────────────────────────────────────────────────────
+
+  - type: input
+    id: contributor
+    attributes:
+      label: Your name / affiliation (optional)
+      placeholder: "e.g. Jane Doe, Example University"

@@ -1,0 +1,81 @@
+name: Convert Issues to Datasets
+
+# Converts GitHub Issues into per-topic FAIR datasets and regenerates
+# the index at docs/datasets/.
+#
+# CUSTOMIZE: Update label names in the `if:` condition below to match
+# the labels used in your issue templates.
+
+on:
+  issues:
+    types: [opened, labeled, edited, closed, reopened]
+
+  schedule:
+    - cron: '25 4 * * *'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues:   read
+
+jobs:
+  build:
+    # CUSTOMIZE: Replace label names with yours
+    if: >
+      github.event_name != 'issues' ||
+      contains(github.event.issue.labels.*.name, 'submission') ||
+      contains(github.event.issue.labels.*.name, 'vocab-gap') ||
+      contains(github.event.issue.labels.*.name, 'data-gap') ||
+      github.event.label.name == 'submission' ||
+      github.event.label.name == 'vocab-gap' ||
+      github.event.label.name == 'data-gap'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate per-topic datasets and index
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO:  ${{ github.repository }}
+          GITHUB_SHA:   ${{ github.sha }}
+        run: python3 scripts/issues_to_datasets.py
+
+      - name: Commit generated datasets
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # CUSTOMIZE: Update directory names if you changed them in the script
+          git add datasets/ docs/datasets/ docs/fdp/submissions.ttl
+
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+
+          TRIGGER="${{ github.event_name }}"
+          if [ "$TRIGGER" = "issues" ]; then
+            MSG="data: update datasets (issue #${{ github.event.issue.number }} ${{ github.event.action }}) [skip ci]"
+          else
+            MSG="data: rebuild dataset index (${TRIGGER}) [skip ci]"
+          fi
+
+          git commit -m "$MSG"
+          git push
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Dataset Index Update" >> $GITHUB_STEP_SUMMARY
+          if [ -d datasets ]; then
+            COUNT=$(ls -d datasets/*/ 2>/dev/null | wc -l | tr -d ' ')
+            echo "- **${COUNT}** dataset folder(s)" >> $GITHUB_STEP_SUMMARY
+          fi

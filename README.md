@@ -1,46 +1,141 @@
-# static-fdp
-a FAIR Data Point backed by static content
+# Static FAIR Data Point
 
-See the [documentation](docs/fdp-layout.html).
+A framework for publishing a [FAIR Data Point (FDP)](https://specs.fairdatapoint.org/)
+backed entirely by static files on GitHub — no running server required.
 
-## Triggering indexing
+Metadata is maintained as RDF Turtle in a Git repository, validated with
+[ShEx](https://shex.io/), and published to GitHub Pages. Community contributions
+arrive via GitHub Issue forms (or optional web forms) and are automatically
+converted into DCAT-compliant datasets by GitHub Actions.
 
-You can trigger an FDP index to crawl your FDP with an HTTP POST with either a JSON payload or a URL-encoded (like from an HTML form) payload.
-Specifically, to ask an FDP index `FDP_INDEX` to crawl some FDP starting at `START`, the unix utility `curl` can send a message à la:
+## How it works
 
-### JSON
-
-This requires a JSON payload with a single element: `clientUrl`.
-
-`curl -X POST -d '{"clinentUrl": "START"}' -H 'content-type: application/json' FDP_INDEX`
-
-For instance, pinging an FDP index running on localhost, you could use curl to trigger indexing of `https://fhir-smoker.fdpcloud.org/index`:
-
-``` sh
-curl -X POST -d '{"clientUrl": "https://fhir-smoker.fdpcloud.org/index"}' -H 'content-type: application/json' http://localhost:8080/
+```
+Contributors
+    │
+    ├── GitHub Issue forms ──────────────┐
+    │                                    ▼
+    └── (optional) Web forms ──────────► GitHub Issues
+         (Cloudflare Worker)                 │
+                                             ▼
+                                   GitHub Actions workflows
+                                     ┌───────┴────────┐
+                                     ▼                 ▼
+                              issues_to_datasets.py   publish.yml
+                                     │                 │
+                                     ▼                 ▼
+                              datasets/{slug}/    docs/fdp/ (RDF)
+                              docs/datasets/      generated/ (SHACL)
+                                     │                 │
+                                     └────────┬────────┘
+                                              ▼
+                                        GitHub Pages
+                                    (static FAIR Data Point)
+                                              │
+                                              ▼
+                                     FDP Index (optional)
 ```
 
-### x-form-urlencoded
+1. **Contribute** — submit structured data via a GitHub Issue form or web form
+2. **Validate** — ShEx schemas check every RDF resource on every PR
+3. **Convert** — GitHub Actions transform issues into per-topic FAIR datasets
+4. **Publish** — Turtle, JSON-LD, and HTML are served from GitHub Pages
+5. **Index** — an optional FDP index crawls and aggregates published FDPs
 
-It's a little simpler to use the x-form-urlencoded payload, not because it rolls off the tongue but because it's a default behavior in curl so the `-H 'content-type: application/x-form-urlencoded'` isn't required.
+## Quick start
 
-`curl -X POST -d 'clientUrl=START' FDP_INDEX`
+```bash
+git clone https://github.com/StaticFDP/static-fdp.git
+cd static-fdp
+chmod +x setup.sh
 
-For instance, pinging an FDP index running on localhost, you could use curl to trigger indexing of `https://fhir-smoker.fdpcloud.org/index`:
-
-``` sh
-curl -X POST -d "clientUrl=https://fhir-smoker.fdpcloud.org/index" http://localhost:8080/
+./setup.sh \
+  --name "my-project" \
+  --title "My FAIR Data Point" \
+  --org "MyOrg" \
+  --publisher "My Working Group" \
+  --publisher-url "https://example.org/" \
+  --domain "fdp.example.org" \
+  --output ./my-new-fdp
 ```
 
-### Web form
+This generates a ready-to-push repository with ShEx profiles, GitHub Actions
+workflows, issue templates, and a DCAT catalog — all parameterized for your
+project.
 
-A Web browser submitting a CGI Web form will also send `application/x-form-urlencoded` so you can use a simple web form like:
+See **[DEPLOY.md](DEPLOY.md)** for the full deployment guide, including
+prerequisites and optional components (Cloudflare Worker, ORCID, FDP Index).
 
-``` HTML
-<form action="your-server-endpoint" method="POST">
-    <label for="clientUrl">Client URL:</label>
-    <input type="text" id="clientUrl" name="clientUrl" value="https://fhir-smoker.fdpcloud.org/index" readonly>
-    <br><br>
-    <button type="submit">Submit</button>
-</form>
+## Repository layout
+
 ```
+static-fdp/
+├── README.md                 <- You are here
+├── DEPLOY.md                 <- Full deployment & prerequisites guide
+├── setup.sh                  <- Bootstrap script for new instances
+├── profiles/                 <- ShEx validation schemas (primary)
+│   ├── FairDataPoint.shex
+│   ├── Catalog.shex
+│   └── Dataset.shex
+├── templates/                <- Parameterized templates
+│   ├── catalog.ttl           <- DCAT catalog with {{placeholders}}
+│   ├── wrangler.toml         <- Cloudflare Worker config
+│   ├── issue-templates/      <- GitHub Issue form templates
+│   │   ├── 01-contribution.yml
+│   │   └── config.yml
+│   └── workflows/            <- GitHub Actions workflows
+│       ├── validate.yml      <- ShEx/SHACL validation on PRs
+│       ├── publish.yml       <- Build + deploy FDP to GitHub Pages
+│       ├── convert-issues.yml<- Issues -> FAIR datasets
+│       └── deploy-worker.yml <- Cloudflare Worker deployment
+├── fdp-index/                <- How to deploy or join the FDP Index
+│   └── README.md
+├── examples/                 <- Worked examples
+│   └── leiden-longevity-study/
+├── docs/                     <- Specification & diagrams
+│   ├── spec/                 <- ReSpec FDP layout specification
+│   └── images/               <- FDP metadata diagrams
+└── LICENSE                   <- MIT
+```
+
+## Validation
+
+ShEx is the **primary** validation gate — PRs cannot merge if ShEx validation
+fails. SHACL schemas are generated automatically from ShEx for ecosystem
+compatibility but are not blocking.
+
+| Schema | Validates |
+|---|---|
+| `profiles/FairDataPoint.shex` | FDP root resource |
+| `profiles/Catalog.shex` | `dcat:Catalog` entries |
+| `profiles/Dataset.shex` | `dcat:Dataset` entries |
+
+## FDP Index
+
+The companion [fdp-index](https://github.com/StaticFDP/fdp-index) repository
+provides a serverless FDP index that crawls registered FDPs daily and publishes
+a searchable catalog at [staticfdp.github.io/fdp-index](https://staticfdp.github.io/fdp-index/).
+
+See **[fdp-index/README.md](fdp-index/README.md)** for how to register your
+FDP or deploy your own index.
+
+## Live deployments
+
+| FDP | Repository |
+|---|---|
+| [GA4GH Rare Disease Trajectories](https://fdp.semscape.org/ga4gh-rare-disease-trajectories/) | [StaticFDP/ga4gh-rare-disease-trajectories](https://github.com/StaticFDP/ga4gh-rare-disease-trajectories) |
+
+## Specification
+
+The [FDP Layout specification](docs/spec/respec.html) describes the RDF graph
+structures required to construct a conformant FAIR Data Point, based on DCAT2.
+
+## Previous version
+
+The original EJP-RD-specific implementation is preserved on the
+[`archive/v0-ejprd`](https://github.com/StaticFDP/static-fdp/tree/archive/v0-ejprd)
+branch.
+
+## License
+
+[MIT](LICENSE)

@@ -1,0 +1,13 @@
+# CUSTOMIZE: Update name, GITHUB_REPO, and LANDING_PAGE
+name            = "my-form-receiver"
+main            = "src/index.js"
+compatibility_date = "2024-09-23"
+
+[vars]
+# CUSTOMIZE: Your GitHub org/repo
+GITHUB_REPO   = "MyOrg/my-repo"
+# CUSTOMIZE: Your GitHub Pages landing page URL
+LANDING_PAGE  = "https://example.org/my-project/"
+
+# Secrets (set once via: wrangler secret put GITHUB_TOKEN)
+# GITHUB_TOKEN — fine-grained PAT, scope: Issues: Read & Write

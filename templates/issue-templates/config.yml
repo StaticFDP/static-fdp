@@ -1,0 +1,9 @@
+# CUSTOMIZE: Update URLs and descriptions for your project
+blank_issues_enabled: true
+contact_links:
+  - name: Project landing page
+    url: https://example.org/my-project/
+    about: Overview of the project, contribution paths, and links to the FDP
+  - name: CONTRIBUTING.md
+    url: https://github.com/MyOrg/my-repo/blob/main/CONTRIBUTING.md
+    about: Full guide for technical contributors (RDF / ShEx / pull requests)
