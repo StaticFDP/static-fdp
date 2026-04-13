@@ -8,12 +8,17 @@ Live index: **[staticfdp.github.io/fdp-index](https://staticfdp.github.io/fdp-in
 
 ## How it works
 
-```
-registry.yaml          GitHub Actions (daily cron)         GitHub Pages
-  (list of FDP URLs)  ──►  crawl.py fetches each FDP  ──►  index.html
-                           generates RDF + HTML              index.ttl
-                           commits to gh-pages               index.jsonld
-                                                             fdps/{slug}/snapshot.*
+```mermaid
+flowchart LR
+    A[registry.yaml\nlist of FDP URLs] --> B[GitHub Actions\ndaily cron]
+    B -->|crawl.py fetches\neach FDP| C[gh-pages branch]
+    C --> D[GitHub Pages]
+    D --> E[index.html\nindex.ttl\nindex.jsonld]
+    D --> F["fdps/{slug}/\nsnapshot.*"]
+
+    style A fill:#4a90d9,color:#fff
+    style B fill:#7b68ee,color:#fff
+    style D fill:#50c878,color:#fff
 ```
 
 1. **Registry** — `registry.yaml` in the fdp-index repo lists every FDP root URL to crawl

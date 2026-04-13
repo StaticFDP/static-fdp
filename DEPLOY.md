@@ -7,30 +7,24 @@ and publishes them as a FAIR Data Point on GitHub Pages — no server required.
 
 ## Architecture overview
 
-```
-Contributors
-    │
-    ├── GitHub Issue forms ──────────────┐
-    │                                    ▼
-    └── (optional) Cloudflare Worker ──► GitHub Issues
-                   web forms                 │
-                                             ▼
-                                   GitHub Actions workflows
-                                     ┌───────┴────────┐
-                                     ▼                 ▼
-                              issues_to_datasets.py   publish.yml
-                                     │                 │
-                                     ▼                 ▼
-                              datasets/{slug}/    docs/fdp/ (RDF)
-                              docs/datasets/      generated/ (SHACL)
-                                     │                 │
-                                     └────────┬────────┘
-                                              ▼
-                                        GitHub Pages
-                                    (static FAIR Data Point)
-                                              │
-                                              ▼
-                                     FDP Index (optional)
+```mermaid
+flowchart TD
+    A[Contributors] -->|GitHub Issue forms| B[GitHub Issues]
+    A -->|Web forms\nCloudflare Worker| B
+    B --> C[GitHub Actions]
+    C --> D[issues_to_datasets.py]
+    C --> E[publish.yml]
+    D --> F["datasets/{slug}/\ndocs/datasets/"]
+    E --> G["docs/fdp/ (RDF)\ngenerated/ (SHACL)"]
+    F --> H[GitHub Pages\nstatic FAIR Data Point]
+    G --> H
+    H -.->|optional| I[FDP Index]
+
+    style A fill:#4a90d9,color:#fff
+    style B fill:#f5a623,color:#fff
+    style C fill:#7b68ee,color:#fff
+    style H fill:#50c878,color:#fff
+    style I fill:#ccc,color:#333,stroke-dasharray: 5 5
 ```
 
 ## Prerequisites

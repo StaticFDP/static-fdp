@@ -10,30 +10,24 @@ converted into DCAT-compliant datasets by GitHub Actions.
 
 ## How it works
 
-```
-Contributors
-    │
-    ├── GitHub Issue forms ──────────────┐
-    │                                    ▼
-    └── (optional) Web forms ──────────► GitHub Issues
-         (Cloudflare Worker)                 │
-                                             ▼
-                                   GitHub Actions workflows
-                                     ┌───────┴────────┐
-                                     ▼                 ▼
-                              issues_to_datasets.py   publish.yml
-                                     │                 │
-                                     ▼                 ▼
-                              datasets/{slug}/    docs/fdp/ (RDF)
-                              docs/datasets/      generated/ (SHACL)
-                                     │                 │
-                                     └────────┬────────┘
-                                              ▼
-                                        GitHub Pages
-                                    (static FAIR Data Point)
-                                              │
-                                              ▼
-                                     FDP Index (optional)
+```mermaid
+flowchart TD
+    A[Contributors] -->|GitHub Issue forms| B[GitHub Issues]
+    A -->|Web forms\nCloudflare Worker| B
+    B --> C[GitHub Actions]
+    C --> D[issues_to_datasets.py]
+    C --> E[publish.yml]
+    D --> F["datasets/{slug}/\ndocs/datasets/"]
+    E --> G["docs/fdp/ (RDF)\ngenerated/ (SHACL)"]
+    F --> H[GitHub Pages\nstatic FAIR Data Point]
+    G --> H
+    H -.->|optional| I[FDP Index]
+
+    style A fill:#4a90d9,color:#fff
+    style B fill:#f5a623,color:#fff
+    style C fill:#7b68ee,color:#fff
+    style H fill:#50c878,color:#fff
+    style I fill:#ccc,color:#333,stroke-dasharray: 5 5
 ```
 
 1. **Contribute** — submit structured data via a GitHub Issue form or web form
@@ -68,34 +62,46 @@ prerequisites and optional components (Cloudflare Worker, ORCID, FDP Index).
 
 ## Repository layout
 
-```
-static-fdp/
-├── README.md                 <- You are here
-├── DEPLOY.md                 <- Full deployment & prerequisites guide
-├── setup.sh                  <- Bootstrap script for new instances
-├── profiles/                 <- ShEx validation schemas (primary)
-│   ├── FairDataPoint.shex
-│   ├── Catalog.shex
-│   └── Dataset.shex
-├── templates/                <- Parameterized templates
-│   ├── catalog.ttl           <- DCAT catalog with {{placeholders}}
-│   ├── wrangler.toml         <- Cloudflare Worker config
-│   ├── issue-templates/      <- GitHub Issue form templates
-│   │   ├── 01-contribution.yml
-│   │   └── config.yml
-│   └── workflows/            <- GitHub Actions workflows
-│       ├── validate.yml      <- ShEx/SHACL validation on PRs
-│       ├── publish.yml       <- Build + deploy FDP to GitHub Pages
-│       ├── convert-issues.yml<- Issues -> FAIR datasets
-│       └── deploy-worker.yml <- Cloudflare Worker deployment
-├── fdp-index/                <- How to deploy or join the FDP Index
-│   └── README.md
-├── examples/                 <- Worked examples
-│   └── leiden-longevity-study/
-├── docs/                     <- Specification & diagrams
-│   ├── spec/                 <- ReSpec FDP layout specification
-│   └── images/               <- FDP metadata diagrams
-└── LICENSE                   <- MIT
+```mermaid
+graph LR
+    root[static-fdp/] --> readme[README.md]
+    root --> deploy[DEPLOY.md]
+    root --> setup[setup.sh]
+    root --> profiles[profiles/]
+    root --> templates[templates/]
+    root --> fdpindex[fdp-index/]
+    root --> examples[examples/]
+    root --> docs[docs/]
+    root --> license[LICENSE]
+
+    profiles --> shex1[FairDataPoint.shex]
+    profiles --> shex2[Catalog.shex]
+    profiles --> shex3[Dataset.shex]
+
+    templates --> catalog[catalog.ttl]
+    templates --> wrangler[wrangler.toml]
+    templates --> issuetpl[issue-templates/]
+    templates --> workflows[workflows/]
+
+    issuetpl --> contrib[01-contribution.yml]
+    issuetpl --> config[config.yml]
+
+    workflows --> validate[validate.yml]
+    workflows --> publish[publish.yml]
+    workflows --> convert[convert-issues.yml]
+    workflows --> deployworker[deploy-worker.yml]
+
+    fdpindex --> fdpreadme[README.md]
+
+    examples --> leiden[leiden-longevity-study/]
+
+    docs --> spec[spec/]
+    docs --> images[images/]
+
+    style root fill:#4a90d9,color:#fff
+    style profiles fill:#50c878,color:#fff
+    style templates fill:#f5a623,color:#fff
+    style workflows fill:#f5a623,color:#fff
 ```
 
 ## Validation
