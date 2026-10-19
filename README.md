@@ -1,5 +1,8 @@
 # Static FAIR Data Point
 
+> [!IMPORTANT]
+> **New FDPs: start from the [FDP ecosystem template](https://github.com/StaticFDP/fdp-ecosystem-template).** This repository is the original StaticFDP framework, started in 2023 by Eric Prud'hommeaux. In the [StaticFDP consolidation](https://github.com/StaticFDP/.github/blob/main/profile/README.md#which-repository-does-what) (one repository per layer), its ShEx validation moves to the template ([fdp-ecosystem-template#1](https://github.com/StaticFDP/fdp-ecosystem-template/pull/1)). Once that has landed, this repository is proposed for archiving. It stays readable, with its history and examples.
+
 A framework for publishing a [FAIR Data Point (FDP)](https://specs.fairdatapoint.org/)
 backed entirely by static files on GitHub — no running server required.
 
